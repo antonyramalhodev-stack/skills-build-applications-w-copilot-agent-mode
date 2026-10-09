@@ -17,59 +17,16 @@ If you are developing a production application, we recommend updating the config
 
 ```js
 export default defineConfig([
-  globalIgnores(['dist']),
+  # Octofit Tracker Frontend
   {
-    files: ['**/*.{ts,tsx}'],
+  The React 19 presentation tier uses Vite, React Router, and Bootstrap. Start it with `npm run dev` from this package or `npm --prefix octofit-tracker/frontend run dev` from the repository root.
     extends: [
-      // Other configs...
+  For API requests in GitHub Codespaces, `VITE_CODESPACE_NAME` must be defined. Add it to `octofit-tracker/frontend/.env.local` before starting Vite:
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
+  ```env
+  VITE_CODESPACE_NAME=your-codespace-name
+  ```
       // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
+  Vite exposes this value through `import.meta.env`. The frontend then requests the API at `https://<codespace-name>-8000.app.github.dev`. When the variable is unset, requests use `http://localhost:8000`.
       // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
-```
-
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
-```
